@@ -4,120 +4,633 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>From Prompting to Describing</title>
-<meta name="description" content="From Prompting to Describing — project page (work in progress).">
+<meta name="description" content="Demo page for “From Prompting to Describing: A Cross-Cultural Study of Language for AI-Generated Music” (ISMIR 2026). Listen to Udio songs and compare their prompts with what English- and Korean-speaking listeners wrote.">
+<meta property="og:title" content="From Prompting to Describing (ISMIR 2026)">
+<meta property="og:description" content="Real Udio prompts, the music they produced, and how English- and Korean-speaking listeners described it.">
 <style>
   :root {
     --bg: #fbfbfa;
     --fg: #1d1d1f;
     --muted: #6b6b70;
-    --accent: #3b5bdb;
     --border: #e4e4e0;
     --card: #ffffff;
+    --soft: #f3f3f0;
+    --accent: #3b5bdb;
+
+    --prompt: #E69F00; --prompt-fill: #FDF3DF; --prompt-text: #9A6700;
+    --en: #56B4E9;     --en-fill: #E8F4FC;     --en-text: #1F6F9E;
+    --ko: #318C57;     --ko-fill: #E4F2EA;     --ko-text: #2A7A4B;
+
+    --c-g: #C0392B; --c-s: #D35400; --c-i: #B7950B; --c-m: #1E8449;
+    --c-t: #2471A3; --c-b: #3B3B98; --c-f: #7D3C98;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #111113;
       --fg: #ececee;
       --muted: #9a9aa2;
-      --accent: #8ea2ff;
       --border: #2a2a2e;
       --card: #18181b;
+      --soft: #202024;
+      --accent: #8ea2ff;
+
+      --prompt: #F0B232; --prompt-fill: #2f2410; --prompt-text: #F5C35B;
+      --en: #6CC0EE;     --en-fill: #10263a;     --en-text: #8CCBF0;
+      --ko: #4FB07A;     --ko-fill: #11281b;     --ko-text: #6FCF97;
+
+      --c-g: #EC7063; --c-s: #F0A04B; --c-i: #E2C044; --c-m: #52BE80;
+      --c-t: #5DADE2; --c-b: #9A9AF2; --c-f: #C39BD3;
     }
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--fg);
-    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 72px 0 40px; text-align: center; }
+  a { color: var(--accent); }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+
+  /* Header */
+  header { padding: 56px 0 32px; text-align: center; }
   .badge {
-    display: inline-block;
-    font-size: 12px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    border-radius: 999px;
-    padding: 2px 12px;
-    margin-bottom: 20px;
+    display: inline-block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 2px 12px; margin-bottom: 18px;
   }
-  h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.15; margin: 0 0 14px; letter-spacing: -.02em; }
-  .sub { color: var(--muted); font-size: 19px; margin: 0; }
-  .authors { margin-top: 24px; color: var(--muted); font-size: 15px; }
-  .links { margin-top: 28px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .links a {
-    text-decoration: none;
-    color: var(--fg);
-    border: 1px solid var(--border);
-    background: var(--card);
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 15px;
+  h1 { font-size: clamp(30px, 7vw, 48px); line-height: 1.12; margin: 0 0 10px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); font-size: clamp(17px, 3.6vw, 20px); margin: 0 auto; max-width: 560px; line-height: 1.4; }
+  .authors { margin: 22px 0 0; font-size: 16px; }
+  .affil { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+  .links { margin-top: 24px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .links a, .links span {
+    text-decoration: none; color: var(--fg); border: 1px solid var(--border); background: var(--card);
+    padding: 8px 16px; border-radius: 8px; font-size: 15px;
   }
   .links a:hover { border-color: var(--accent); color: var(--accent); }
-  .links .off { color: var(--muted); cursor: default; }
-  .links .off:hover { border-color: var(--border); color: var(--muted); }
-  section { padding: 32px 0; border-top: 1px solid var(--border); }
-  h2 { font-size: 24px; margin: 0 0 12px; letter-spacing: -.01em; }
+  .links .off { color: var(--muted); }
+
+  /* Sections */
+  section { padding: 36px 0; border-top: 1px solid var(--border); }
+  h2 { font-size: clamp(22px, 5vw, 27px); margin: 0 0 10px; letter-spacing: -.01em; line-height: 1.25; }
+  h3 { font-size: 18px; margin: 0; line-height: 1.3; }
   p { margin: 0 0 14px; }
-  .placeholder {
-    border: 1px dashed var(--border);
-    background: var(--card);
-    border-radius: 10px;
-    padding: 28px 16px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 15px;
+  .lead { font-size: 18px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 14px; }
+
+  /* Study at a glance */
+  .flow { display: grid; gap: 10px; grid-template-columns: 1fr; margin: 20px 0 18px; padding: 0; list-style: none; }
+  .flow li { border: 1px solid var(--border); background: var(--card); border-radius: 10px; padding: 12px 14px; font-size: 15px; line-height: 1.45; }
+  .flow b { display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 2px; }
+  .flow .f-prompt { border-left: 4px solid var(--prompt); }
+  .flow .f-prompt b { color: var(--prompt-text); }
+  .flow .f-audio { border-left: 4px solid var(--muted); }
+  .flow .f-desc { border-left: 4px solid var(--en); }
+  .flow .f-desc b { color: var(--en-text); }
+  @media (min-width: 720px) { .flow { grid-template-columns: repeat(3, 1fr); } }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 0 0 18px; }
+  .stat { background: var(--soft); border-radius: 10px; padding: 12px 14px; }
+  .stat .n { font-size: 26px; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
+  .stat .l { font-size: 14px; color: var(--muted); }
+  @media (min-width: 720px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  details.abstract { border: 1px solid var(--border); border-radius: 10px; background: var(--card); padding: 0 14px; }
+  details.abstract summary { cursor: pointer; padding: 12px 0; font-weight: 600; }
+  details.abstract p { font-size: 15px; color: var(--muted); }
+
+  /* Legend + highlights */
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 14px 0 6px; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
+  .legend li { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; background: var(--c); display: inline-block; }
+  mark.hl {
+    color: inherit; background: transparent; border-bottom: 2px solid var(--c); padding: 0 1px; border-radius: 2px;
+    background: color-mix(in srgb, var(--c) 14%, transparent);
   }
-  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
-  footer { padding: 32px 0 56px; color: var(--muted); font-size: 14px; text-align: center; border-top: 1px solid var(--border); }
+  .c-g { --c: var(--c-g); } .c-s { --c: var(--c-s); } .c-i { --c: var(--c-i); } .c-m { --c: var(--c-m); }
+  .c-t { --c: var(--c-t); } .c-b { --c: var(--c-b); } .c-f { --c: var(--c-f); }
+
+  /* Showcase */
+  .jump { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px; margin: 12px 0 4px; scrollbar-width: thin; }
+  .jump a {
+    flex: none; text-decoration: none; color: var(--fg); background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 12px; font-size: 14px; white-space: nowrap;
+  }
+  .jump a:hover { border-color: var(--accent); color: var(--accent); }
+  .song { border: 1px solid var(--border); background: var(--card); border-radius: 14px; padding: 18px 16px; margin: 16px 0; scroll-margin-top: 12px; }
+  .song-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .role { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); }
+  .rank { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .song h3 { margin-top: 4px; font-size: 21px; }
+  .by { font-size: 14px; color: var(--muted); margin: 2px 0 14px; }
+  .by a { color: var(--muted); }
+
+  .prompt-box { background: var(--prompt-fill); border-left: 4px solid var(--prompt); border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; }
+  .label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
+  .prompt-box .label { color: var(--prompt-text); }
+  .prompt-box p { margin: 0; font-size: 17px; overflow-wrap: anywhere; }
+
+  .player { display: flex; align-items: center; gap: 12px; background: var(--soft); border-radius: 999px; padding: 6px 14px 6px 6px; margin: 0 0 16px; }
+  .player button {
+    flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--fg); color: var(--bg); display: grid; place-items: center;
+  }
+  .player button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .player svg { width: 18px; height: 18px; fill: currentColor; }
+  .player input[type=range] { flex: 1; min-width: 0; accent-color: var(--fg); margin: 0; }
+  .player .time { flex: none; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .noaudio { background: var(--soft); border-radius: 10px; padding: 10px 14px; margin: 0 0 16px; font-size: 15px; }
+
+  .descs { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 760px) { .descs { grid-template-columns: 1fr 1fr; } }
+  .dcol { border-radius: 10px; padding: 10px 14px 6px; }
+  .dcol.en { background: var(--en-fill); }
+  .dcol.ko { background: var(--ko-fill); }
+  .dcol.en .label { color: var(--en-text); }
+  .dcol.ko .label { color: var(--ko-text); }
+  .dcol ul { list-style: none; margin: 6px 0 0; padding: 0; }
+  .dcol li { padding: 8px 0; border-top: 1px solid color-mix(in srgb, var(--fg) 10%, transparent); font-size: 15.5px; line-height: 1.5; overflow-wrap: anywhere; }
+  .dcol li:first-child { border-top: 0; }
+  .tr { display: block; margin-top: 3px; font-size: 13.5px; color: var(--muted); }
+  .tr::before { content: "Translation: "; font-weight: 600; }
+  .more { background: none; border: 0; padding: 6px 0 8px; color: var(--accent); cursor: pointer; font: inherit; font-size: 14px; }
+  .takeaway { margin: 14px 0 0; font-size: 15.5px; border-top: 1px dashed var(--border); padding-top: 12px; }
+  .takeaway b { font-weight: 700; }
+
+  /* Results */
+  .findings { margin: 8px 0 22px; padding-left: 20px; }
+  .findings li { margin-bottom: 10px; }
+  figure { margin: 18px 0 26px; }
+  figure a { display: block; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+  /* Explorer */
+  .controls { display: grid; gap: 10px; grid-template-columns: 1fr; margin: 14px 0 8px; }
+  @media (min-width: 640px) { .controls { grid-template-columns: 1fr auto; } }
+  .controls input[type=search], .controls select {
+    width: 100%; font: inherit; font-size: 16px; color: var(--fg); background: var(--card);
+    border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px;
+  }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; align-items: center; }
+  .filters span.lbl { font-size: 13px; color: var(--muted); margin-right: 2px; }
+  .filters button {
+    font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--card); color: var(--fg); display: inline-flex; align-items: center; gap: 6px;
+  }
+  .filters button i { width: 9px; height: 9px; border-radius: 2px; background: var(--c); }
+  .filters button[aria-pressed=true] { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--card)); }
+  .count { font-size: 14px; color: var(--muted); margin: 0 0 6px; }
+  .rows { border-top: 1px solid var(--border); }
+  .row { border-bottom: 1px solid var(--border); }
+  .row summary { list-style: none; cursor: pointer; padding: 12px 2px; display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: start; }
+  .row summary::-webkit-details-marker { display: none; }
+  .row .rk { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .row .t { font-weight: 600; font-size: 15.5px; }
+  .row .t .star { color: var(--prompt-text); font-weight: 700; font-size: 12px; margin-left: 6px; letter-spacing: .04em; text-transform: uppercase; }
+  .row .p { color: var(--muted); font-size: 14.5px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .row[open] .p { display: none; }
+  .simbar { display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .simbar span.track { flex: 0 1 140px; height: 5px; border-radius: 3px; background: var(--soft); overflow: hidden; }
+  .simbar span.fill { display: block; height: 100%; background: var(--en); }
+  .row .body { padding: 0 2px 16px 56px; }
+  @media (max-width: 520px) { .row .body { padding-left: 2px; } }
+  .row .body .prompt-box p { font-size: 16px; }
+  .empty { padding: 20px 0; color: var(--muted); }
+  .showmore { display: block; margin: 14px auto 0; font: inherit; font-size: 15px; padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; }
+
+  /* Cite + footer */
+  pre.bib { background: var(--soft); border-radius: 10px; padding: 14px; font-size: 13px; line-height: 1.5; overflow-x: auto; margin: 10px 0 8px; }
+  .copy { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; }
+  footer { padding: 28px 0 48px; color: var(--muted); font-size: 14px; text-align: center; border-top: 1px solid var(--border); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header>
-    <span class="badge">Work in Progress</span>
+    <span class="badge">ISMIR 2026</span>
     <h1>From Prompting to Describing</h1>
-    <p class="sub">Project page &middot; work in progress</p>
-    <p class="authors">Sangheon Park &middot; Sogang University</p>
-    <div class="links">
-      <a href="https://github.com/michspark/prompt_demo">Code</a>
-      <a class="off" aria-disabled="true">Paper (coming soon)</a>
-      <a class="off" aria-disabled="true">Demo (coming soon)</a>
-    </div>
+    <p class="sub">A Cross-Cultural Study of Language for AI-Generated Music</p>
+    <p class="authors">Sangheon Park &middot; Claire Arthur</p>
+    <p class="affil">School of Music, Georgia Institute of Technology</p>
+    <nav class="links" aria-label="Project links">
+      <a href="#listen">Listen</a>
+      <a href="#explore">Explore all 200</a>
+      <a href="https://github.com/michspark/MusicPromptDescription">Code &amp; data</a>
+      <span class="off" aria-disabled="true">Paper (coming soon)</span>
+    </nav>
   </header>
 
-  <section id="overview">
-    <h2>Overview</h2>
-    <p>This page is a placeholder for the project <em>From Prompting to Describing</em>. A short summary of the idea and motivation will go here.</p>
-  </section>
-
-  <section id="demo">
-    <h2>Demo</h2>
-    <div class="grid">
-      <div class="placeholder">Demo 1</div>
-      <div class="placeholder">Demo 2</div>
-      <div class="placeholder">Demo 3</div>
+  <section id="overview" aria-labelledby="h-overview">
+    <h2 id="h-overview">The study in one minute</h2>
+    <p class="lead">People prompt text-to-music systems with one kind of language. Listeners describe the music they hear with another. We took real Udio prompts, played the songs they produced to English- and Korean-speaking listeners, and compared the two.</p>
+    <ol class="flow">
+      <li class="f-prompt"><b>1 &middot; Prompt</b>A real user's prompt to Udio, from the Casini et al. corpus.</li>
+      <li class="f-audio"><b>2 &middot; Audio</b>The first 32 seconds of the song Udio generated from that prompt.</li>
+      <li class="f-desc"><b>3 &middot; Description</b>What listeners wrote after hearing it, in their own words (10&ndash;25 words).</li>
+    </ol>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="n">200</div><div class="l">Udio prompts &amp; songs</div></div>
+      <div class="stat"><div class="n">2,624</div><div class="l">listener descriptions</div></div>
+      <div class="stat"><div class="n">70</div><div class="l">English-speaking listeners</div></div>
+      <div class="stat"><div class="n">78</div><div class="l">Korean-speaking listeners</div></div>
     </div>
+    <details class="abstract">
+      <summary>Abstract</summary>
+      <p>Text-to-music (TTM) generation systems allow users to create music through natural language prompts, yet it is unclear whether the descriptive language used to prompt aligns with descriptive language used to summarize or describe heard music. We pair 200 real-world Udio prompts with their generated audio and free-form descriptions collected from English- (n = 70) and Korean-speaking (n = 78) listeners, and contribute a human-derived taxonomy of musical prompting vocabulary grounded in real user data. Using this framework, alongside word- and vector-level analyses, we find a consistent structural asymmetry: prompts are dominated by <em>Genre</em> and <em>Story/Narrative</em> language. Genre terms propagate most reliably from prompt to perception, while narrative-heavy prompts are the strongest predictor of semantic misalignment. A preliminary cross-cultural comparison further suggests that description profiles vary across listener populations along narrative, functional, and affective dimensions, raising questions about whether current TTM systems, trained on aggregated English-centric corpora, can accommodate the full diversity of how people naturally express musical ideas.</p>
+    </details>
   </section>
 
-  <section id="method">
-    <h2>Method</h2>
-    <div class="placeholder">Method figure / description coming soon</div>
+  <section id="listen" aria-labelledby="h-listen">
+    <h2 id="h-listen">Listen: six songs</h2>
+    <p>Read the prompt, play the clip, then see what listeners wrote. Highlighted words show the taxonomy category GPT-5.4 assigned to each term. <em>Rank</em> orders all 200 songs by the mean Sentence-BERT cosine similarity between the prompt and its English descriptions (1 = closest).</p>
+    <ul class="legend" data-legend></ul>
+    <nav class="jump" id="jump" aria-label="Jump to a song"></nav>
+    <div id="showcase"></div>
   </section>
 
-  <section id="status">
-    <h2>Status</h2>
-    <p>This project is still in progress. Content on this page will change as the work develops.</p>
+  <section id="results" aria-labelledby="h-results">
+    <h2 id="h-results">What we found</h2>
+    <ul class="findings">
+      <li>Prompts are dominated by <em>Genre</em> and <em>Story/Narrative</em> language. Genre appears in 95% of prompts but 61% of descriptions; descriptions lean on <em>Instrumentation</em>, <em>Mood/Emotion</em> and <em>Music Theory</em>.</li>
+      <li>Genre terms propagate most reliably from prompt to perception, but listeners rarely reuse the prompt word itself. They substitute an adjacent label (<em>metal</em> &rarr; <em>rock</em>, <em>hip-hop</em> &rarr; <em>rap</em>) or an associated sonic marker (<em>country</em> &rarr; <em>banjo</em>). Prompt language is recovered as a semantic neighborhood rather than as specific words.</li>
+      <li>Narrative-heavy prompts are the strongest predictor of semantic misalignment. Story/Narrative density is 0.452 in the least-aligned quarter of prompts and 0.169 in the best-aligned quarter.</li>
+      <li>In an exploratory comparison, Korean-speaking listeners' descriptions more often invoked <em>Mood/Emotion</em>, <em>Function</em>, <em>Instrumentation</em> and <em>Story/Narrative</em> than English-speaking listeners' did. The two groups were recruited differently, so we treat this as preliminary.</li>
+    </ul>
+    <figure>
+      <a href="img/prompt_desc.png"><img src="img/prompt_desc.png" width="2000" height="938" loading="lazy" alt="Bar charts comparing prompts (orange) and descriptions (blue) across seven categories. Presence rate: Genre 95% vs 61%, Story 73% vs 43%, Instrumentation 40% vs 68%, Mood 33% vs 48%, Theory 31% vs 52%, Timbre 19% vs 47%, Function 12% vs 33%."></a>
+      <figcaption><b>Figure 1.</b> Category-level prompt vs. description comparison: (a) presence rate, (b) mean density. Prompts dominate in <em>Genre</em> and <em>Story/Narrative</em>; descriptions in <em>Instrumentation</em>, <em>Mood/Emotion</em>, <em>Music Theory</em>.</figcaption>
+    </figure>
+    <figure>
+      <a href="img/korean_english.png"><img src="img/korean_english.png" width="2000" height="938" loading="lazy" alt="Bar charts comparing English (purple) and Korean (green) listener descriptions across seven categories. Presence rate: Genre 61.5% vs 57.8%, Story 42.8% vs 49.2%, Instrumentation 67.8% vs 74.2%, Mood 47.8% vs 67.3%, Theory 52.1% vs 55.9%, Timbre 47.3% vs 49.0%, Function 32.9% vs 41.7%."></a>
+      <figcaption><b>Figure 2.</b> Cross-cultural description comparison by language group (purple: English, n = 70; green: Korean, n = 78): (a) model-predicted category presence rate, (b) mean category density. Error bars show 95% confidence intervals.</figcaption>
+    </figure>
   </section>
 
-  <footer>&copy; 2026 Sangheon Park</footer>
+  <section id="explore" aria-labelledby="h-explore">
+    <h2 id="h-explore">Explore all 200 songs</h2>
+    <p>Every prompt in the study with all of its descriptions. Audio for these songs is not hosted here; each one links to the original song on Udio.</p>
+    <div class="controls">
+      <label class="sr" for="q">Search prompts and descriptions</label>
+      <input type="search" id="q" placeholder="Search prompts and descriptions (e.g. lullaby, 기타)" autocomplete="off">
+      <label class="sr" for="sort">Sort</label>
+      <select id="sort">
+        <option value="best">Most aligned first</option>
+        <option value="worst">Least aligned first</option>
+        <option value="title">Title A&ndash;Z</option>
+      </select>
+    </div>
+    <div class="filters" id="filters"><span class="lbl">Prompt mentions:</span></div>
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="rows" id="rows"></div>
+    <button class="showmore" id="showmore" hidden>Show more</button>
+  </section>
+
+  <section id="about" aria-labelledby="h-about">
+    <h2 id="h-about">About the data</h2>
+    <p class="small">Descriptions were collected in an online listening study approved by the Georgia Institute of Technology IRB (2026-65). They appear here anonymously and exactly as written, typos included. Translations of the Korean descriptions in the six cards are given for reference.</p>
+    <p class="small">The six audio clips are the first 32 seconds of public Udio songs, credited to their creators and linked to the originals. They are shared only to demonstrate the study, for non-commercial academic purposes. Prompts come from the corpus of Casini et al. (<a href="https://github.com/mister-magpie/aims_prompts">aims_prompts</a>).</p>
+    <h3 style="margin-top:22px">Cite</h3>
+    <pre class="bib" id="bib">@inproceedings{park2026prompting,
+  title     = {From Prompting to Describing: A Cross-Cultural Study
+               of Language for AI-Generated Music},
+  author    = {Park, Sangheon and Arthur, Claire},
+  booktitle = {Proceedings of the 27th International Society for
+               Music Information Retrieval Conference (ISMIR)},
+  year      = {2026}
+}</pre>
+    <button class="copy" id="copybib" type="button">Copy BibTeX</button>
+  </section>
+
+  <footer>&copy; 2026 Sangheon Park &amp; Claire Arthur</footer>
 
 </div>
+
+<script src="data/demo-data.js"></script>
+<script>
+(function () {
+  'use strict';
+  var D = window.DEMO_DATA;
+  if (!D) {
+    document.getElementById('showcase').textContent = 'Demo data failed to load.';
+    return;
+  }
+
+  var CATS = [
+    ['g', 'Genre'], ['s', 'Story/Narrative'], ['i', 'Instrumentation'], ['m', 'Mood/Emotion'],
+    ['t', 'Music Theory'], ['b', 'Timbre'], ['f', 'Function']
+  ];
+  var CAT_LABEL = {};
+  CATS.forEach(function (c) { CAT_LABEL[c[0]] = c[1]; });
+
+  var byId = {};
+  D.songs.forEach(function (s) { byId[s.id] = s; });
+  var showIds = {};
+  D.showcase.forEach(function (s, i) { showIds[s.id] = i; });
+  var maxSim = Math.max.apply(null, D.songs.map(function (s) { return s.sim; }));
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  // Legends
+  document.querySelectorAll('[data-legend]').forEach(function (ul) {
+    CATS.forEach(function (c) {
+      var li = el('li', 'c-' + c[0]);
+      li.appendChild(el('i'));
+      li.appendChild(document.createTextNode(c[1]));
+      ul.appendChild(li);
+    });
+  });
+
+  // Highlight category terms inside a text. Terms come from the classifier and are sometimes
+  // normalized, so only literal (case-insensitive) matches are marked.
+  var ASCII_WORD = /[a-z0-9]/i;
+  function highlighted(text, cats) {
+    var frag = document.createDocumentFragment();
+    if (!cats) { frag.appendChild(document.createTextNode(text)); return frag; }
+    var lower = text.toLowerCase();
+    var terms = [];
+    CATS.forEach(function (c) {
+      (cats[c[0]] || []).forEach(function (t) { if (t && t.length > 1) terms.push([t.toLowerCase(), c[0]]); });
+    });
+    terms.sort(function (a, b) { return b[0].length - a[0].length; });
+    var marks = [];
+    terms.forEach(function (tc) {
+      var t = tc[0], from = 0, idx;
+      while ((idx = lower.indexOf(t, from)) !== -1) {
+        var end = idx + t.length;
+        var okL = !ASCII_WORD.test(t[0]) || idx === 0 || !ASCII_WORD.test(lower[idx - 1]);
+        var okR = !ASCII_WORD.test(t[t.length - 1]) || end === lower.length || !ASCII_WORD.test(lower[end]);
+        var overlap = marks.some(function (m) { return idx < m[1] && end > m[0]; });
+        if (okL && okR && !overlap) marks.push([idx, end, tc[1]]);
+        from = end;
+      }
+    });
+    marks.sort(function (a, b) { return a[0] - b[0]; });
+    var pos = 0;
+    marks.forEach(function (m) {
+      if (m[0] > pos) frag.appendChild(document.createTextNode(text.slice(pos, m[0])));
+      var mk = el('mark', 'hl c-' + m[2], text.slice(m[0], m[1]));
+      mk.title = CAT_LABEL[m[2]];
+      frag.appendChild(mk);
+      pos = m[1];
+    });
+    if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    return frag;
+  }
+
+  function promptBox(song) {
+    var box = el('div', 'prompt-box');
+    box.appendChild(el('span', 'label', 'Prompt'));
+    var p = el('p');
+    p.appendChild(highlighted(song.prompt, song.pc));
+    box.appendChild(p);
+    return box;
+  }
+
+  function udioLink(song, text) {
+    var a = el('a', null, text || 'Listen on Udio ↗');
+    a.href = song.url; a.target = '_blank'; a.rel = 'noopener';
+    return a;
+  }
+
+  // Description column. picks = indices shown first; the rest sit behind "Show all".
+  function descColumn(kind, list, picks, translations) {
+    var col = el('div', 'dcol ' + kind);
+    var title = kind === 'en' ? 'English-speaking listeners' : 'Korean-speaking listeners';
+    col.appendChild(el('span', 'label', title + ' (' + list.length + ')'));
+    var ul = el('ul');
+    col.appendChild(ul);
+    var order = picks && picks.length ? picks.slice() : list.map(function (_, i) { return i; });
+    list.forEach(function (_, i) { if (order.indexOf(i) === -1) order.push(i); });
+    var initial = picks && picks.length ? picks.length : order.length;
+    function item(i) {
+      var li = el('li');
+      var d = list[i];
+      var span = el('span');
+      if (kind === 'ko') span.lang = 'ko';
+      span.appendChild(highlighted(d.t, d.c));
+      li.appendChild(span);
+      if (translations && translations[i]) li.appendChild(el('span', 'tr', translations[i]));
+      return li;
+    }
+    order.slice(0, initial).forEach(function (i) { ul.appendChild(item(i)); });
+    if (order.length > initial) {
+      var btn = el('button', 'more', 'Show all ' + list.length);
+      btn.type = 'button';
+      btn.addEventListener('click', function () {
+        order.slice(initial).forEach(function (i) { ul.appendChild(item(i)); });
+        btn.remove();
+      });
+      col.appendChild(btn);
+    }
+    return col;
+  }
+
+  // Audio player: one clip at a time; falls back to the Udio link if the file is missing.
+  var current = null;
+  var ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+  var ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+  function fmt(t) {
+    if (!isFinite(t)) t = 0;
+    var m = Math.floor(t / 60), s = Math.floor(t % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function player(src, song) {
+    var wrap = el('div', 'player');
+    var btn = el('button'); btn.type = 'button'; btn.innerHTML = ICON_PLAY;
+    btn.setAttribute('aria-label', 'Play “' + song.title + '”');
+    var range = el('input'); range.type = 'range'; range.min = 0; range.max = 1000; range.step = 1; range.value = 0;
+    range.setAttribute('aria-label', 'Seek');
+    var time = el('span', 'time', '0:00 / 0:32');
+    wrap.appendChild(btn); wrap.appendChild(range); wrap.appendChild(time);
+
+    var audio = new Audio();
+    audio.preload = 'metadata';
+    function fail() {
+      var box = el('div', 'noaudio');
+      box.appendChild(document.createTextNode('Audio clip not available here. '));
+      box.appendChild(udioLink(song));
+      if (wrap.parentNode) wrap.parentNode.replaceChild(box, wrap);
+      if (current === audio) current = null;
+    }
+    audio.addEventListener('error', fail);
+    audio.src = src;
+    function sync() {
+      var d = audio.duration;
+      time.textContent = fmt(audio.currentTime) + ' / ' + fmt(isFinite(d) ? d : 32);
+      if (isFinite(d) && d > 0 && !range.matches(':active')) range.value = Math.round(audio.currentTime / d * 1000);
+    }
+    audio.addEventListener('loadedmetadata', sync);
+    audio.addEventListener('timeupdate', sync);
+    audio.addEventListener('play', function () {
+      if (current && current !== audio) current.pause();
+      current = audio;
+      btn.innerHTML = ICON_PAUSE; btn.setAttribute('aria-label', 'Pause “' + song.title + '”');
+    });
+    function stopped() { btn.innerHTML = ICON_PLAY; btn.setAttribute('aria-label', 'Play “' + song.title + '”'); }
+    audio.addEventListener('pause', stopped);
+    audio.addEventListener('ended', function () { stopped(); audio.currentTime = 0; sync(); });
+    btn.addEventListener('click', function () {
+      if (audio.paused) { var p = audio.play(); if (p && p.catch) p.catch(function () {}); } else audio.pause();
+    });
+    range.addEventListener('input', function () {
+      if (isFinite(audio.duration)) audio.currentTime = range.value / 1000 * audio.duration;
+    });
+    return wrap;
+  }
+
+  // Showcase cards
+  var showcase = document.getElementById('showcase');
+  var jump = document.getElementById('jump');
+  D.showcase.forEach(function (sc, n) {
+    var song = byId[sc.id];
+    if (!song) return;
+    var anchor = 'song-' + (n + 1);
+    var a = el('a', null, (n + 1) + '. ' + sc.role); a.href = '#' + anchor; jump.appendChild(a);
+
+    var card = el('article', 'song'); card.id = anchor;
+    var head = el('div', 'song-head');
+    head.appendChild(el('span', 'role', sc.role));
+    head.appendChild(el('span', 'rank', sc.tag + ' · similarity ' + song.sim.toFixed(3)));
+    card.appendChild(head);
+    card.appendChild(el('h3', null, '“' + song.title + '”'));
+    var by = el('p', 'by');
+    by.appendChild(document.createTextNode(song.creator ? 'by ' + song.creator + ' · ' : 'Udio song · '));
+    by.appendChild(udioLink(song, 'original on Udio ↗'));
+    card.appendChild(by);
+    card.appendChild(promptBox(song));
+    card.appendChild(player(sc.audio, song));
+    var descs = el('div', 'descs');
+    descs.appendChild(descColumn('en', song.en, sc.en_pick));
+    descs.appendChild(descColumn('ko', song.ko, sc.ko_pick, sc.ko_tr));
+    card.appendChild(descs);
+    var tk = el('p', 'takeaway');
+    tk.appendChild(el('b', null, 'What happened: '));
+    tk.appendChild(document.createTextNode(sc.note));
+    card.appendChild(tk);
+    showcase.appendChild(card);
+  });
+
+  // Explorer
+  var q = document.getElementById('q');
+  var sortSel = document.getElementById('sort');
+  var filtersEl = document.getElementById('filters');
+  var rowsEl = document.getElementById('rows');
+  var countEl = document.getElementById('count');
+  var moreBtn = document.getElementById('showmore');
+  var PAGE = 40, limit = PAGE;
+  var active = {};
+
+  CATS.forEach(function (c) {
+    var b = el('button', 'c-' + c[0]);
+    b.type = 'button';
+    b.setAttribute('aria-pressed', 'false');
+    b.appendChild(el('i'));
+    b.appendChild(document.createTextNode(c[1]));
+    b.addEventListener('click', function () {
+      active[c[0]] = !active[c[0]];
+      b.setAttribute('aria-pressed', String(!!active[c[0]]));
+      limit = PAGE; render();
+    });
+    filtersEl.appendChild(b);
+  });
+
+  D.songs.forEach(function (s) {
+    s._hay = [s.title, s.prompt].concat(s.en.map(function (d) { return d.t; }), s.ko.map(function (d) { return d.t; }))
+      .join('\n').toLowerCase();
+  });
+
+  function rowBody(song) {
+    var body = el('div', 'body');
+    body.appendChild(promptBox(song));
+    var descs = el('div', 'descs');
+    descs.appendChild(descColumn('en', song.en, null));
+    descs.appendChild(descColumn('ko', song.ko, null));
+    body.appendChild(descs);
+    var links = el('p', 'small');
+    links.style.margin = '12px 0 0';
+    links.appendChild(udioLink(song));
+    if (song.id in showIds) {
+      links.appendChild(document.createTextNode(' · '));
+      var a = el('a', null, 'Play it above');
+      a.href = '#song-' + (showIds[song.id] + 1);
+      links.appendChild(a);
+    }
+    body.appendChild(links);
+    return body;
+  }
+
+  function row(song) {
+    var d = el('details', 'row');
+    var sm = el('summary');
+    sm.appendChild(el('span', 'rk', '#' + song.rank));
+    var main = el('div');
+    var t = el('div', 't', song.title);
+    if (song.id in showIds) t.appendChild(el('span', 'star', '♪ audio'));
+    main.appendChild(t);
+    main.appendChild(el('div', 'p', song.prompt));
+    var bar = el('div', 'simbar');
+    var track = el('span', 'track'); var fill = el('span', 'fill');
+    fill.style.width = Math.max(2, song.sim / maxSim * 100) + '%';
+    track.appendChild(fill);
+    bar.appendChild(track);
+    bar.appendChild(document.createTextNode('similarity ' + song.sim.toFixed(3) + ' · ' + song.en.length + ' EN / ' + song.ko.length + ' KO'));
+    main.appendChild(bar);
+    sm.appendChild(main);
+    d.appendChild(sm);
+    d.addEventListener('toggle', function () {
+      if (d.open && !d._built) { d.appendChild(rowBody(song)); d._built = true; }
+    });
+    return d;
+  }
+
+  var timer = null;
+  function render() {
+    var term = q.value.trim().toLowerCase();
+    var cats = Object.keys(active).filter(function (k) { return active[k]; });
+    var list = D.songs.filter(function (s) {
+      if (term && s._hay.indexOf(term) === -1) return false;
+      for (var i = 0; i < cats.length; i++) if (!s.pc[cats[i]]) return false;
+      return true;
+    });
+    var mode = sortSel.value;
+    list.sort(function (a, b) {
+      if (mode === 'worst') return b.rank - a.rank;
+      if (mode === 'title') return a.title.localeCompare(b.title);
+      return a.rank - b.rank;
+    });
+    rowsEl.textContent = '';
+    if (!list.length) rowsEl.appendChild(el('p', 'empty', 'No songs match. Try another word or clear the filters.'));
+    list.slice(0, limit).forEach(function (s) { rowsEl.appendChild(row(s)); });
+    countEl.textContent = list.length === D.songs.length ? 'All ' + list.length + ' songs' : list.length + ' of ' + D.songs.length + ' songs';
+    moreBtn.hidden = list.length <= limit;
+    moreBtn.textContent = 'Show more (' + (list.length - limit) + ' left)';
+  }
+  q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { limit = PAGE; render(); }, 150); });
+  sortSel.addEventListener('change', function () { limit = PAGE; render(); });
+  moreBtn.addEventListener('click', function () { limit += PAGE; render(); });
+  render();
+
+  // BibTeX copy
+  var copyBtn = document.getElementById('copybib');
+  copyBtn.addEventListener('click', function () {
+    var text = document.getElementById('bib').textContent;
+    function done() { copyBtn.textContent = 'Copied'; setTimeout(function () { copyBtn.textContent = 'Copy BibTeX'; }, 1500); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+    } else {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById('bib'));
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    }
+  });
+})();
+</script>
 </body>
 </html>

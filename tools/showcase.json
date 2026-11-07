@@ -1,0 +1,106 @@
+[
+  {
+    "id": "ee070cac-0af1-4d86-9",
+    "audio": "audio/ee070cac.mp3",
+    "role": "Best aligned",
+    "tag": "Rank 1 of 200",
+    "note": "The highest prompt–description similarity in the set. Most English listeners mention country (5 of 7) and a female singer (6 of 7).",
+    "en_pick": [6, 3, 1],
+    "ko_pick": [1, 4, 6],
+    "ko_tr": [
+      "Pop music with a female vocalist. The band instruments and the vocal blend well, and the standout is a singer who sings really well.",
+      "It has an American country feel. Like a performance staged in a wide cornfield, filmed by a drone from far away.",
+      "An English-language song with a sweet, lilting female vocal over band music; 1990s-style music that comes across as yearning.",
+      "Typical 80s female-vocal pop; the open, soaring sound feels good.",
+      "An exciting pop song by a woman; a strong guitar beat and a female vocal, with an upbeat, cheerful mood.",
+      "A strong, bright female vocal over a rock sound; music that brings a moving finale to mind.",
+      "A song at a moderate tempo that anyone could enjoy; an emotional female vocalist who sings well; hopeful and comfortable."
+    ]
+  },
+  {
+    "id": "9a12553b-7ae1-4e35-9",
+    "audio": "audio/9a12553b.mp3",
+    "role": "Least aligned",
+    "tag": "Rank 200 of 200",
+    "note": "The prompt is a short story with no musical terms. No listener mentions being sick; three of eight English listeners pick up on video games.",
+    "en_pick": [2, 3, 4],
+    "ko_pick": [0, 3, 4],
+    "ko_tr": [
+      "A slight cyberpunk atmosphere, but the setting isn't the future. A song that would play in the background at a huge futuristic corporation's conference, in a city or building with a futuristic concept, as a wealthy host appears.",
+      "Sounds like a small local band that British boys formed before they grew up. Upbeat yet dreamy, with a striking synthesizer.",
+      "A bubbly song with a high male vocal. The beat is regular and easy to move to; music you might listen to when making a fresh start.",
+      "The main character persuades colleagues one by one and builds a team. The band sound adding one part at a time is like team building.",
+      "A song that suits driving: an intense drum beat and a man's low, attractive, calm voice.",
+      "A male vocal that feels low and subdued. The melody and rhythm are bright and fast, but the repeating rhythm makes it feel calm.",
+      "Band music that uses synthesizer to bring out the melody, fitting for when a film's end credits roll."
+    ]
+  },
+  {
+    "id": "05c85698-35f9-4ca9-a",
+    "audio": "audio/05c85698.mp3",
+    "role": "Story in the prompt",
+    "tag": "Rank 143 of 200",
+    "note": "Listeners hear the groove and the saxophone, but their genre labels range from swing jazz to rock to tropical house. Nobody mentions four men or New York.",
+    "en_pick": [0, 4, 5],
+    "ko_pick": [0, 2, 3],
+    "ko_tr": [
+      "Drums, bass, electric guitar and electric piano work together, with a groovy male vocal standing out.",
+      "A groove-filled band number where percussion, electric guitar and male vocal combine perfectly.",
+      "Feels like light rock merged with a funky style. A song with a rebellious-sounding male vocal. An electric guitar melody that gives a funky, country-ish feel.",
+      "It's soul-funk: the vocal lays down a groovy line while a guitar solo carries the song along behind it. The vocal hits hard, and the bassline sits heavy underneath."
+    ]
+  },
+  {
+    "id": "72dda986-55c6-450e-8",
+    "audio": "audio/72dda986.mp3",
+    "role": "English vs. Korean listeners",
+    "tag": "Rank 3 of 200",
+    "note": "Both groups hear a slow guitar piece with no vocals. English listeners keep returning to “melancholic” (5 of 7); Korean listeners more often write about calm (차분, 잔잔) and about where they would listen: a rainy autumn day with coffee, a summer evening, a campfire.",
+    "en_pick": [2, 3, 6],
+    "ko_pick": [2, 5, 6],
+    "ko_tr": [
+      "The guitar flows loosely, as if the melody runs on without clear beat divisions. No vocals; it feels led by a classical guitar melody. Seems to be a duo or more.",
+      "Music combining an acoustic guitar melody with strumming; soft and lyrical.",
+      "Gentle guitar music that would be nice to listen to over a cup of coffee on a rainy autumn day.",
+      "Music built on an acoustic guitar melody, with a calm yet emotional atmosphere. No vocals; a melody that seems sad and is beautiful.",
+      "A gentle instrumental in which traditional classical guitars stack up harmonies as they play.",
+      "The quiet and calm of a soft guitar melody. With only guitar and no vocals, it evokes the idle ease of resting on a summer evening.",
+      "Sweet guitar sound that suggests a song for a trip or camping; a lonely, calm mood, like someone playing alone to ease their loneliness, or playing for people around a campfire."
+    ]
+  },
+  {
+    "id": "ea2b91c4-07d0-45b2-b",
+    "audio": "audio/ea2b91c4.mp3",
+    "role": "metal → rock",
+    "tag": "Rank 137 of 200",
+    "note": "The prompt says heavy metal and never says rock. Five of six English listeners and four of seven Korean listeners call it rock. Across the full set, metal → rock is one of the strongest prompt–description word associations (χ² = 134.59).",
+    "en_pick": [0, 1, 4],
+    "ko_pick": [0, 1, 6],
+    "ko_tr": [
+      "Intense rock music in which drums and guitar blend with the vocal, giving a mournful feeling.",
+      "Classic rock that is all 90s, but now with a side of a tasty German vocal line.",
+      "A song sung by a male vocalist over guitar and drums. A minor-sounding melody that isn't bright.",
+      "An old-pop feel like Hotel California, with intense rock vocals and electric guitar. Feels like a rock ballad at an unhurried tempo.",
+      "A rough vocal with acoustic instruments creating a grand, dramatic atmosphere; an epic-feeling song.",
+      "A typical chanson feel, sung by a male vocalist with a somewhat rough, hoarse voice. A medium tempo that doesn't drag. It feels like the climax of the whole song; you can feel the expressiveness of a male vocal that seems to cry out its emotions.",
+      "Rock music with a husky vocal, good for moving along to at a rock festival."
+    ]
+  },
+  {
+    "id": "7606dd90-1f55-4f82-8",
+    "audio": "audio/7606dd90.mp3",
+    "role": "hip-hop → rap",
+    "tag": "Rank 18 of 200",
+    "note": "Listeners name the rap they hear (6 of 7 English, 5 of 6 Korean) rather than the hip-hop label in the prompt; two English listeners also catch the UK drill. Across the full set, hip-hop → rap is the second-strongest association (χ² = 184.04).",
+    "en_pick": [1, 3, 4],
+    "ko_pick": [0, 4, 2],
+    "ko_tr": [
+      "A hip-hop/rap song. The man raps fast, then slow. It goes slow rap, then fast rap, and the lyrics in each part are the same.",
+      "A song you might hear in a UK dubstep or bass club; the a cappella would very likely get layered onto other tracks too.",
+      "Tension-building sounds and rap. Good for when conflict escalates in a film or game.",
+      "Music where the rap part stands out and a simple melody keeps repeating; the ringing, bell-like instrument is striking.",
+      "Fast, underground-feeling English hip-hop in which a low male vocal raps quickly and, in between, gets the crowd to call back with lines like “I say, you say.”",
+      "A robotic-sounding, effected vocal starts the song rapping, then another vocal comes in and lays down a melody. A hard-hitting song where the two vocals trade raps back and forth."
+    ]
+  }
+]
