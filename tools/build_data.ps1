@@ -2,6 +2,7 @@
 # Usage (from the prompt_demo folder):
 #   powershell -NoProfile -ExecutionPolicy Bypass -File tools\build_data.ps1 [-Src ..\MusicPromptDescription]
 #
+# All 200 songs are read and validated, but only the songs listed in showcase.json are exported.
 # Only song-level text is exported: Udio URL/title/prompt, prompt categories, similarity rank,
 # and the free-text descriptions with their categories. Participant numbers and demographics
 # are never written out.
@@ -125,7 +126,8 @@ $data = [ordered]@{
     source = 'github.com/michspark/MusicPromptDescription (data_717)'
   }
   showcase = @($showcase)
-  songs = @($songs)
+  # The page only shows the example songs, so only those are written out.
+  songs = @($songs | Where-Object { $showIds -contains $_.id })
 }
 
 $json = ConvertTo-Json -InputObject $data -Depth 12 -Compress

@@ -43,7 +43,7 @@
     }
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
     background: var(--bg);
@@ -64,24 +64,23 @@
   .authors { margin: 22px 0 0; font-size: 16px; }
   .affil { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
   .links { margin-top: 24px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .links a, .links span {
+  .links a {
     text-decoration: none; color: var(--fg); border: 1px solid var(--border); background: var(--card);
     padding: 8px 16px; border-radius: 8px; font-size: 15px;
   }
   .links a:hover { border-color: var(--accent); color: var(--accent); }
-  .links .off { color: var(--muted); }
 
   /* Sections */
   section { padding: 36px 0; border-top: 1px solid var(--border); }
   h2 { font-size: clamp(22px, 5vw, 27px); margin: 0 0 10px; letter-spacing: -.01em; line-height: 1.25; }
   h3 { font-size: 18px; margin: 0; line-height: 1.3; }
   p { margin: 0 0 14px; }
-  .lead { font-size: 18px; }
   .muted { color: var(--muted); }
   .small { font-size: 14px; }
+  .abstract { font-size: 16px; }
 
-  /* Study at a glance */
-  .flow { display: grid; gap: 10px; grid-template-columns: 1fr; margin: 20px 0 18px; padding: 0; list-style: none; }
+  /* Data */
+  .flow { display: grid; gap: 10px; grid-template-columns: 1fr; margin: 16px 0 18px; padding: 0; list-style: none; }
   .flow li { border: 1px solid var(--border); background: var(--card); border-radius: 10px; padding: 12px 14px; font-size: 15px; line-height: 1.45; }
   .flow b { display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 2px; }
   .flow .f-prompt { border-left: 4px solid var(--prompt); }
@@ -95,9 +94,6 @@
   .stat .n { font-size: 26px; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
   .stat .l { font-size: 14px; color: var(--muted); }
   @media (min-width: 720px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-  details.abstract { border: 1px solid var(--border); border-radius: 10px; background: var(--card); padding: 0 14px; }
-  details.abstract summary { cursor: pointer; padding: 12px 0; font-weight: 600; }
-  details.abstract p { font-size: 15px; color: var(--muted); }
 
   /* Legend + highlights */
   .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 14px 0 6px; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
@@ -110,27 +106,32 @@
   .c-g { --c: var(--c-g); } .c-s { --c: var(--c-s); } .c-i { --c: var(--c-i); } .c-m { --c: var(--c-m); }
   .c-t { --c: var(--c-t); } .c-b { --c: var(--c-b); } .c-f { --c: var(--c-f); }
 
-  /* Showcase */
-  .jump { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px; margin: 12px 0 4px; scrollbar-width: thin; }
-  .jump a {
-    flex: none; text-decoration: none; color: var(--fg); background: var(--card); border: 1px solid var(--border);
-    border-radius: 999px; padding: 6px 12px; font-size: 14px; white-space: nowrap;
-  }
-  .jump a:hover { border-color: var(--accent); color: var(--accent); }
-  .song { border: 1px solid var(--border); background: var(--card); border-radius: 14px; padding: 18px 16px; margin: 16px 0; scroll-margin-top: 12px; }
-  .song-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
-  .role { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); }
-  .rank { font-size: 13px; color: var(--muted); white-space: nowrap; }
-  .song h3 { margin-top: 4px; font-size: 21px; }
-  .by { font-size: 14px; color: var(--muted); margin: 2px 0 14px; }
+  /* Examples: every card uses the same Prompt / Audio / Descriptions / Note rows */
+  .ex { border: 1px solid var(--border); background: var(--card); border-radius: 14px; padding: 18px 16px; margin: 18px 0; }
+  .ex-head { display: flex; justify-content: space-between; gap: 2px 12px; align-items: baseline; flex-wrap: wrap; }
+  .ex-head h3 { font-size: 19px; }
+  .rank { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .by { font-size: 14px; color: var(--muted); margin: 2px 0 16px; }
   .by a { color: var(--muted); }
+  .ex-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .ex-label { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; line-height: 1.6; color: var(--muted); margin: 16px 0 4px; }
+  .ex-grid > .ex-label:first-child { margin-top: 0; }
+  .ex-label.l-prompt { color: var(--prompt-text); }
+  @media (min-width: 680px) {
+    .ex { padding: 20px 22px; }
+    .ex-grid { grid-template-columns: 112px minmax(0, 1fr); gap: 14px 16px; }
+    .ex-label { margin: 0; }
+    .l-prompt { padding-top: 14px; }
+    .l-audio { padding-top: 18px; }
+    .l-desc { padding-top: 10px; }
+    .l-note { padding-top: 2px; }
+  }
 
-  .prompt-box { background: var(--prompt-fill); border-left: 4px solid var(--prompt); border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; }
-  .label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
-  .prompt-box .label { color: var(--prompt-text); }
+  .prompt-box { background: var(--prompt-fill); border-left: 4px solid var(--prompt); border-radius: 8px; padding: 10px 14px; }
   .prompt-box p { margin: 0; font-size: 17px; overflow-wrap: anywhere; }
+  .label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 
-  .player { display: flex; align-items: center; gap: 12px; background: var(--soft); border-radius: 999px; padding: 6px 14px 6px 6px; margin: 0 0 16px; }
+  .player { display: flex; align-items: center; gap: 12px; background: var(--soft); border-radius: 999px; padding: 6px 14px 6px 6px; }
   .player button {
     flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
     background: var(--fg); color: var(--bg); display: grid; place-items: center;
@@ -139,10 +140,10 @@
   .player svg { width: 18px; height: 18px; fill: currentColor; }
   .player input[type=range] { flex: 1; min-width: 0; accent-color: var(--fg); margin: 0; }
   .player .time { flex: none; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .noaudio { background: var(--soft); border-radius: 10px; padding: 10px 14px; margin: 0 0 16px; font-size: 15px; }
+  .noaudio { background: var(--soft); border-radius: 10px; padding: 10px 14px; font-size: 15px; }
 
-  .descs { display: grid; grid-template-columns: 1fr; gap: 14px; }
-  @media (min-width: 760px) { .descs { grid-template-columns: 1fr 1fr; } }
+  .descs { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: start; }
+  @media (min-width: 900px) { .descs { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .dcol { border-radius: 10px; padding: 10px 14px 6px; }
   .dcol.en { background: var(--en-fill); }
   .dcol.ko { background: var(--ko-fill); }
@@ -154,8 +155,7 @@
   .tr { display: block; margin-top: 3px; font-size: 13.5px; color: var(--muted); }
   .tr::before { content: "Translation: "; font-weight: 600; }
   .more { background: none; border: 0; padding: 6px 0 8px; color: var(--accent); cursor: pointer; font: inherit; font-size: 14px; }
-  .takeaway { margin: 14px 0 0; font-size: 15.5px; border-top: 1px dashed var(--border); padding-top: 12px; }
-  .takeaway b { font-weight: 700; }
+  .note { margin: 0; font-size: 15.5px; line-height: 1.5; }
 
   /* Results */
   .findings { margin: 8px 0 22px; padding-left: 20px; }
@@ -165,45 +165,10 @@
   figure img { display: block; width: 100%; height: auto; }
   figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
 
-  /* Explorer */
-  .controls { display: grid; gap: 10px; grid-template-columns: 1fr; margin: 14px 0 8px; }
-  @media (min-width: 640px) { .controls { grid-template-columns: 1fr auto; } }
-  .controls input[type=search], .controls select {
-    width: 100%; font: inherit; font-size: 16px; color: var(--fg); background: var(--card);
-    border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px;
-  }
-  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; align-items: center; }
-  .filters span.lbl { font-size: 13px; color: var(--muted); margin-right: 2px; }
-  .filters button {
-    font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; cursor: pointer;
-    border: 1px solid var(--border); background: var(--card); color: var(--fg); display: inline-flex; align-items: center; gap: 6px;
-  }
-  .filters button i { width: 9px; height: 9px; border-radius: 2px; background: var(--c); }
-  .filters button[aria-pressed=true] { border-color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--card)); }
-  .count { font-size: 14px; color: var(--muted); margin: 0 0 6px; }
-  .rows { border-top: 1px solid var(--border); }
-  .row { border-bottom: 1px solid var(--border); }
-  .row summary { list-style: none; cursor: pointer; padding: 12px 2px; display: grid; grid-template-columns: 44px 1fr; gap: 10px; align-items: start; }
-  .row summary::-webkit-details-marker { display: none; }
-  .row .rk { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 2px; }
-  .row .t { font-weight: 600; font-size: 15.5px; }
-  .row .t .star { color: var(--prompt-text); font-weight: 700; font-size: 12px; margin-left: 6px; letter-spacing: .04em; text-transform: uppercase; }
-  .row .p { color: var(--muted); font-size: 14.5px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
-  .row[open] .p { display: none; }
-  .simbar { display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .simbar span.track { flex: 0 1 140px; height: 5px; border-radius: 3px; background: var(--soft); overflow: hidden; }
-  .simbar span.fill { display: block; height: 100%; background: var(--en); }
-  .row .body { padding: 0 2px 16px 56px; }
-  @media (max-width: 520px) { .row .body { padding-left: 2px; } }
-  .row .body .prompt-box p { font-size: 16px; }
-  .empty { padding: 20px 0; color: var(--muted); }
-  .showmore { display: block; margin: 14px auto 0; font: inherit; font-size: 15px; padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; }
-
   /* Cite + footer */
   pre.bib { background: var(--soft); border-radius: 10px; padding: 14px; font-size: 13px; line-height: 1.5; overflow-x: auto; margin: 10px 0 8px; }
   .copy { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; }
   footer { padding: 28px 0 48px; color: var(--muted); font-size: 14px; text-align: center; border-top: 1px solid var(--border); }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -216,43 +181,42 @@
     <p class="authors">Sangheon Park &middot; Claire Arthur</p>
     <p class="affil">School of Music, Georgia Institute of Technology</p>
     <nav class="links" aria-label="Project links">
-      <a href="#listen">Listen</a>
-      <a href="#explore">Explore all 200</a>
+      <a href="https://arxiv.org/pdf/2608.06634">Paper (arXiv)</a>
       <a href="https://github.com/michspark/MusicPromptDescription">Code &amp; data</a>
-      <span class="off" aria-disabled="true">Paper (coming soon)</span>
     </nav>
   </header>
 
-  <section id="overview" aria-labelledby="h-overview">
-    <h2 id="h-overview">The study in one minute</h2>
-    <p class="lead">People prompt text-to-music systems with one kind of language. Listeners describe the music they hear with another. We took real Udio prompts, played the songs they produced to English- and Korean-speaking listeners, and compared the two.</p>
+  <section id="abstract" aria-labelledby="h-abstract">
+    <h2 id="h-abstract">Abstract</h2>
+    <p class="abstract">Text-to-music (TTM) generation systems allow users to create music through natural language prompts, yet it is unclear whether the descriptive language used to prompt aligns with descriptive language used to summarize or describe heard music. We pair 200 real-world Udio prompts with their generated audio and free-form descriptions collected from English- (n = 70) and Korean-speaking (n = 78) listeners, and contribute a human-derived taxonomy of musical prompting vocabulary grounded in real user data. Using this framework, alongside word- and vector-level analyses, we find a consistent structural asymmetry: prompts are dominated by <em>Genre</em> and <em>Story/Narrative</em> language. Genre terms propagate most reliably from prompt to perception, while narrative-heavy prompts are the strongest predictor of semantic misalignment. A preliminary cross-cultural comparison further suggests that description profiles vary across listener populations along narrative, functional, and affective dimensions, raising questions about whether current TTM systems, trained on aggregated English-centric corpora, can accommodate the full diversity of how people naturally express musical ideas.</p>
+  </section>
+
+  <section id="data" aria-labelledby="h-data">
+    <h2 id="h-data">Data</h2>
+    <p>Each of the 200 items pairs three things:</p>
     <ol class="flow">
-      <li class="f-prompt"><b>1 &middot; Prompt</b>A real user's prompt to Udio, from the Casini et al. corpus.</li>
-      <li class="f-audio"><b>2 &middot; Audio</b>The first 32 seconds of the song Udio generated from that prompt.</li>
-      <li class="f-desc"><b>3 &middot; Description</b>What listeners wrote after hearing it, in their own words (10&ndash;25 words).</li>
+      <li class="f-prompt"><b>Prompt</b>A real user's prompt to Udio, from the Casini et al. corpus.</li>
+      <li class="f-audio"><b>Audio</b>The first 32 seconds of the song Udio generated from that prompt.</li>
+      <li class="f-desc"><b>Description</b>What listeners wrote after hearing it, in their own words (10&ndash;25 words).</li>
     </ol>
-    <div class="stats" id="stats">
+    <div class="stats">
       <div class="stat"><div class="n">200</div><div class="l">Udio prompts &amp; songs</div></div>
       <div class="stat"><div class="n">2,624</div><div class="l">listener descriptions</div></div>
       <div class="stat"><div class="n">70</div><div class="l">English-speaking listeners</div></div>
       <div class="stat"><div class="n">78</div><div class="l">Korean-speaking listeners</div></div>
     </div>
-    <details class="abstract">
-      <summary>Abstract</summary>
-      <p>Text-to-music (TTM) generation systems allow users to create music through natural language prompts, yet it is unclear whether the descriptive language used to prompt aligns with descriptive language used to summarize or describe heard music. We pair 200 real-world Udio prompts with their generated audio and free-form descriptions collected from English- (n = 70) and Korean-speaking (n = 78) listeners, and contribute a human-derived taxonomy of musical prompting vocabulary grounded in real user data. Using this framework, alongside word- and vector-level analyses, we find a consistent structural asymmetry: prompts are dominated by <em>Genre</em> and <em>Story/Narrative</em> language. Genre terms propagate most reliably from prompt to perception, while narrative-heavy prompts are the strongest predictor of semantic misalignment. A preliminary cross-cultural comparison further suggests that description profiles vary across listener populations along narrative, functional, and affective dimensions, raising questions about whether current TTM systems, trained on aggregated English-centric corpora, can accommodate the full diversity of how people naturally express musical ideas.</p>
-    </details>
+    <p class="small muted">Descriptions were collected in an online listening study approved by the Georgia Institute of Technology IRB (2026-65). They appear here anonymously and exactly as written, typos included. Prompts come from the corpus of Casini et al. (<a href="https://github.com/mister-magpie/aims_prompts">aims_prompts</a>). The audio clips below are the first 32 seconds of public Udio songs, credited to their creators and linked to the originals, and are shared only to demonstrate the study, for non-commercial academic purposes.</p>
   </section>
 
-  <section id="listen" aria-labelledby="h-listen">
-    <h2 id="h-listen">Listen: six songs</h2>
-    <p>Read the prompt, play the clip, then see what listeners wrote. Highlighted words show the taxonomy category GPT-5.4 assigned to each term. <em>Rank</em> orders all 200 songs by the mean Sentence-BERT cosine similarity between the prompt and its English descriptions (1 = closest).</p>
+  <section id="examples" aria-labelledby="h-examples">
+    <h2 id="h-examples">Examples</h2>
+    <p>Six of the 200 items. Highlighted words show the taxonomy category GPT-5.4 assigned to each term. <em>Rank</em> orders all 200 items by the mean Sentence-BERT cosine similarity between the prompt and its English descriptions (1 = closest). English translations of the Korean descriptions are given for reference.</p>
     <ul class="legend" data-legend></ul>
-    <nav class="jump" id="jump" aria-label="Jump to a song"></nav>
-    <div id="showcase"></div>
+    <div id="example-list"></div>
   </section>
 
   <section id="results" aria-labelledby="h-results">
-    <h2 id="h-results">What we found</h2>
+    <h2 id="h-results">Results</h2>
     <ul class="findings">
       <li>Prompts are dominated by <em>Genre</em> and <em>Story/Narrative</em> language. Genre appears in 95% of prompts but 61% of descriptions; descriptions lean on <em>Instrumentation</em>, <em>Mood/Emotion</em> and <em>Music Theory</em>.</li>
       <li>Genre terms propagate most reliably from prompt to perception, but listeners rarely reuse the prompt word itself. They substitute an adjacent label (<em>metal</em> &rarr; <em>rock</em>, <em>hip-hop</em> &rarr; <em>rap</em>) or an associated sonic marker (<em>country</em> &rarr; <em>banjo</em>). Prompt language is recovered as a semantic neighborhood rather than as specific words.</li>
@@ -269,30 +233,8 @@
     </figure>
   </section>
 
-  <section id="explore" aria-labelledby="h-explore">
-    <h2 id="h-explore">Explore all 200 songs</h2>
-    <p>Every prompt in the study with all of its descriptions. Audio for these songs is not hosted here; each one links to the original song on Udio.</p>
-    <div class="controls">
-      <label class="sr" for="q">Search prompts and descriptions</label>
-      <input type="search" id="q" placeholder="Search prompts and descriptions (e.g. lullaby, 기타)" autocomplete="off">
-      <label class="sr" for="sort">Sort</label>
-      <select id="sort">
-        <option value="best">Most aligned first</option>
-        <option value="worst">Least aligned first</option>
-        <option value="title">Title A&ndash;Z</option>
-      </select>
-    </div>
-    <div class="filters" id="filters"><span class="lbl">Prompt mentions:</span></div>
-    <p class="count" id="count" aria-live="polite"></p>
-    <div class="rows" id="rows"></div>
-    <button class="showmore" id="showmore" hidden>Show more</button>
-  </section>
-
-  <section id="about" aria-labelledby="h-about">
-    <h2 id="h-about">About the data</h2>
-    <p class="small">Descriptions were collected in an online listening study approved by the Georgia Institute of Technology IRB (2026-65). They appear here anonymously and exactly as written, typos included. Translations of the Korean descriptions in the six cards are given for reference.</p>
-    <p class="small">The six audio clips are the first 32 seconds of public Udio songs, credited to their creators and linked to the originals. They are shared only to demonstrate the study, for non-commercial academic purposes. Prompts come from the corpus of Casini et al. (<a href="https://github.com/mister-magpie/aims_prompts">aims_prompts</a>).</p>
-    <h3 style="margin-top:22px">Cite</h3>
+  <section id="cite" aria-labelledby="h-cite">
+    <h2 id="h-cite">Citation</h2>
     <pre class="bib" id="bib">@inproceedings{park2026prompting,
   title     = {From Prompting to Describing: A Cross-Cultural Study
                of Language for AI-Generated Music},
@@ -314,7 +256,7 @@
   'use strict';
   var D = window.DEMO_DATA;
   if (!D) {
-    document.getElementById('showcase').textContent = 'Demo data failed to load.';
+    document.getElementById('example-list').textContent = 'Demo data failed to load.';
     return;
   }
 
@@ -327,9 +269,6 @@
 
   var byId = {};
   D.songs.forEach(function (s) { byId[s.id] = s; });
-  var showIds = {};
-  D.showcase.forEach(function (s, i) { showIds[s.id] = i; });
-  var maxSim = Math.max.apply(null, D.songs.map(function (s) { return s.sim; }));
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -338,7 +277,7 @@
     return e;
   }
 
-  // Legends
+  // Legend
   document.querySelectorAll('[data-legend]').forEach(function (ul) {
     CATS.forEach(function (c) {
       var li = el('li', 'c-' + c[0]);
@@ -387,7 +326,6 @@
 
   function promptBox(song) {
     var box = el('div', 'prompt-box');
-    box.appendChild(el('span', 'label', 'Prompt'));
     var p = el('p');
     p.appendChild(highlighted(song.prompt, song.pc));
     box.appendChild(p);
@@ -486,137 +424,39 @@
     return wrap;
   }
 
-  // Showcase cards
-  var showcase = document.getElementById('showcase');
-  var jump = document.getElementById('jump');
+  // Example cards: the same labelled rows in every card, so prompts, audio and descriptions line up.
+  var list = document.getElementById('example-list');
   D.showcase.forEach(function (sc, n) {
     var song = byId[sc.id];
     if (!song) return;
-    var anchor = 'song-' + (n + 1);
-    var a = el('a', null, (n + 1) + '. ' + sc.role); a.href = '#' + anchor; jump.appendChild(a);
+    var card = el('article', 'ex'); card.id = 'example-' + (n + 1);
 
-    var card = el('article', 'song'); card.id = anchor;
-    var head = el('div', 'song-head');
-    head.appendChild(el('span', 'role', sc.role));
+    var head = el('div', 'ex-head');
+    head.appendChild(el('h3', null, 'Example ' + (n + 1) + ' · ' + sc.role));
     head.appendChild(el('span', 'rank', sc.tag + ' · similarity ' + song.sim.toFixed(3)));
     card.appendChild(head);
-    card.appendChild(el('h3', null, '“' + song.title + '”'));
     var by = el('p', 'by');
-    by.appendChild(document.createTextNode(song.creator ? 'by ' + song.creator + ' · ' : 'Udio song · '));
+    by.appendChild(document.createTextNode('“' + song.title + '”' + (song.creator ? ' by ' + song.creator : '') + ' · '));
     by.appendChild(udioLink(song, 'original on Udio ↗'));
     card.appendChild(by);
-    card.appendChild(promptBox(song));
-    card.appendChild(player(sc.audio, song));
+
+    var grid = el('div', 'ex-grid');
+    function addRow(label, cls, content) {
+      grid.appendChild(el('div', 'ex-label ' + cls, label));
+      var cell = el('div');
+      cell.appendChild(content);
+      grid.appendChild(cell);
+    }
+    addRow('Prompt', 'l-prompt', promptBox(song));
+    addRow('Audio', 'l-audio', player(sc.audio, song));
     var descs = el('div', 'descs');
     descs.appendChild(descColumn('en', song.en, sc.en_pick));
     descs.appendChild(descColumn('ko', song.ko, sc.ko_pick, sc.ko_tr));
-    card.appendChild(descs);
-    var tk = el('p', 'takeaway');
-    tk.appendChild(el('b', null, 'What happened: '));
-    tk.appendChild(document.createTextNode(sc.note));
-    card.appendChild(tk);
-    showcase.appendChild(card);
+    addRow('Descriptions', 'l-desc', descs);
+    addRow('Note', 'l-note', el('p', 'note', sc.note));
+    card.appendChild(grid);
+    list.appendChild(card);
   });
-
-  // Explorer
-  var q = document.getElementById('q');
-  var sortSel = document.getElementById('sort');
-  var filtersEl = document.getElementById('filters');
-  var rowsEl = document.getElementById('rows');
-  var countEl = document.getElementById('count');
-  var moreBtn = document.getElementById('showmore');
-  var PAGE = 40, limit = PAGE;
-  var active = {};
-
-  CATS.forEach(function (c) {
-    var b = el('button', 'c-' + c[0]);
-    b.type = 'button';
-    b.setAttribute('aria-pressed', 'false');
-    b.appendChild(el('i'));
-    b.appendChild(document.createTextNode(c[1]));
-    b.addEventListener('click', function () {
-      active[c[0]] = !active[c[0]];
-      b.setAttribute('aria-pressed', String(!!active[c[0]]));
-      limit = PAGE; render();
-    });
-    filtersEl.appendChild(b);
-  });
-
-  D.songs.forEach(function (s) {
-    s._hay = [s.title, s.prompt].concat(s.en.map(function (d) { return d.t; }), s.ko.map(function (d) { return d.t; }))
-      .join('\n').toLowerCase();
-  });
-
-  function rowBody(song) {
-    var body = el('div', 'body');
-    body.appendChild(promptBox(song));
-    var descs = el('div', 'descs');
-    descs.appendChild(descColumn('en', song.en, null));
-    descs.appendChild(descColumn('ko', song.ko, null));
-    body.appendChild(descs);
-    var links = el('p', 'small');
-    links.style.margin = '12px 0 0';
-    links.appendChild(udioLink(song));
-    if (song.id in showIds) {
-      links.appendChild(document.createTextNode(' · '));
-      var a = el('a', null, 'Play it above');
-      a.href = '#song-' + (showIds[song.id] + 1);
-      links.appendChild(a);
-    }
-    body.appendChild(links);
-    return body;
-  }
-
-  function row(song) {
-    var d = el('details', 'row');
-    var sm = el('summary');
-    sm.appendChild(el('span', 'rk', '#' + song.rank));
-    var main = el('div');
-    var t = el('div', 't', song.title);
-    if (song.id in showIds) t.appendChild(el('span', 'star', '♪ audio'));
-    main.appendChild(t);
-    main.appendChild(el('div', 'p', song.prompt));
-    var bar = el('div', 'simbar');
-    var track = el('span', 'track'); var fill = el('span', 'fill');
-    fill.style.width = Math.max(2, song.sim / maxSim * 100) + '%';
-    track.appendChild(fill);
-    bar.appendChild(track);
-    bar.appendChild(document.createTextNode('similarity ' + song.sim.toFixed(3) + ' · ' + song.en.length + ' EN / ' + song.ko.length + ' KO'));
-    main.appendChild(bar);
-    sm.appendChild(main);
-    d.appendChild(sm);
-    d.addEventListener('toggle', function () {
-      if (d.open && !d._built) { d.appendChild(rowBody(song)); d._built = true; }
-    });
-    return d;
-  }
-
-  var timer = null;
-  function render() {
-    var term = q.value.trim().toLowerCase();
-    var cats = Object.keys(active).filter(function (k) { return active[k]; });
-    var list = D.songs.filter(function (s) {
-      if (term && s._hay.indexOf(term) === -1) return false;
-      for (var i = 0; i < cats.length; i++) if (!s.pc[cats[i]]) return false;
-      return true;
-    });
-    var mode = sortSel.value;
-    list.sort(function (a, b) {
-      if (mode === 'worst') return b.rank - a.rank;
-      if (mode === 'title') return a.title.localeCompare(b.title);
-      return a.rank - b.rank;
-    });
-    rowsEl.textContent = '';
-    if (!list.length) rowsEl.appendChild(el('p', 'empty', 'No songs match. Try another word or clear the filters.'));
-    list.slice(0, limit).forEach(function (s) { rowsEl.appendChild(row(s)); });
-    countEl.textContent = list.length === D.songs.length ? 'All ' + list.length + ' songs' : list.length + ' of ' + D.songs.length + ' songs';
-    moreBtn.hidden = list.length <= limit;
-    moreBtn.textContent = 'Show more (' + (list.length - limit) + ' left)';
-  }
-  q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { limit = PAGE; render(); }, 150); });
-  sortSel.addEventListener('change', function () { limit = PAGE; render(); });
-  moreBtn.addEventListener('click', function () { limit += PAGE; render(); });
-  render();
 
   // BibTeX copy
   var copyBtn = document.getElementById('copybib');
